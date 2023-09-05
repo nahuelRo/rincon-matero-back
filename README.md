@@ -1,6 +1,6 @@
 # Structure folders
 
-- api 
+- api
 - ├── /models
 - ├── /controllers
 - ├── /config
@@ -12,5 +12,4 @@
 
 # Schema Design
 
-![Schema Design](./schema/image.png)
-
+![Schema Design](./schema/schemaImg.png)
