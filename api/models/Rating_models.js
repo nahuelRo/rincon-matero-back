@@ -7,6 +7,7 @@ Rating.init(
   {
     classfication: {
       type: DataTypes.FLOAT,
+      defaultValue: 0,
     },
     comment: {
       type: DataTypes.TEXT,
@@ -15,4 +16,4 @@ Rating.init(
   { sequelize: db, modelName: "rating" }
 );
 
-module.exports = db;
+module.exports = Rating;
