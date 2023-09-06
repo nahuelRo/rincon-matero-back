@@ -1,10 +1,10 @@
-const Users = require("./Users_models");
-const Shopping_history = require("./Shopping_history_models");
-const Rating = require("./Rating_models");
-const Products = require("./Product_model");
-const Orders_products = require("./Orders_products_models");
-const Orders = require("./Orders_models");
-const Categories = require("./Categories_models");
+const Users = require("./Users.models");
+const Shopping_history = require("./Shopping_histories.models");
+const Rating = require("./Ratings.models");
+const Products = require("./Products.models");
+const Orders_products = require("./Orders_products.models");
+const Orders = require("./Orders.models");
+const Categories = require("./Categories.models");
 
 Users.belongsToMany(Products, { through: Rating });
 Products.belongsToMany(Users, { through: Rating });
