@@ -34,9 +34,18 @@ User.init(
       unique: true,
       validate: {
         isEmail: {
-          msg: "El campo email debe ser una dirección de correo electrónico válida", //Plantear el lenguage de los msg/alert (Ingles ó Español)
+          msg: "Email must be a valid email address",
         },
       },
+    },
+
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
+    salt: {
+      type: DataTypes.STRING,
     },
 
     address: {
