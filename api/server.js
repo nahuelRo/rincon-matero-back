@@ -3,6 +3,7 @@ const db = require("./config/db");
 const volleyball = require("volleyball");
 const cors = require("cors");
 const routes = require("./routes");
+const models = require("./models");
 
 const app = express();
 
