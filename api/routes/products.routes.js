@@ -58,4 +58,21 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+router.get("/:id", (req, res) => {
+  const { id } = req.params;
+
+  Product.findByPk(id)
+    .then((product) => {
+      if (!product) {
+        res.status(404).json({ error: "Product not found" });
+      } else {
+        res.json(product);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json({ error: "Internal server error" });
+    });
+});
+
 module.exports = router;
