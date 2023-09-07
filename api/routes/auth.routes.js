@@ -9,6 +9,28 @@ const { Users } = require("../models/index");
 
 router.use(cookieParser());
 
+router.post("/register", (req, res) => {
+  Users.findOne({ where: { email: req.body.email } })
+    .then((existingUser) => {
+      if (existingUser) {
+        res.status(400).json({ error: "User already exists" });
+      } else {
+        Users.create(req.body)
+          .then(() => {
+            res.status(201).json({ message: "Successful registration" });
+          })
+          .catch((error) => {
+            console.error(error);
+            res.status(500).json({ error: "Internal server error" });
+          });
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json({ error: "Internal server error" });
+    });
+});
+
 router.post("/logout", (req, res) => {
   res.clearCookie("token").sendStatus(204);
 });
