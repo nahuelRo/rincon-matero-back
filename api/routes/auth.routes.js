@@ -58,4 +58,8 @@ router.post("/login", (req, res) => {
   });
 });
 
+router.post("/me", validateCookie, (req, res) => {
+  res.json(req.user);
+});
+
 module.exports = router;
