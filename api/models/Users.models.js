@@ -20,7 +20,6 @@ User.init(
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      bcrypt,
     },
 
     last_name: {
@@ -61,7 +60,6 @@ User.init(
   { sequelize: db, modelName: "user" }
 );
 
-//hook beforeCreate para logica de salt
 User.beforeCreate((user) => {
   const salt = bcrypt.genSaltSync();
   user.salt = salt;

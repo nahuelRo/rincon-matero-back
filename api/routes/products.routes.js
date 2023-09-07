@@ -7,7 +7,7 @@ const { Categories } = require("../models");
 
 router.post("/", async (req, res) => {
   try {
-    const { name, description, price, stock, image } = req.body;
+    const { name, description, price, stock, image, categoryId } = req.body;
 
     const newProduct = await Product.create({
       name,
@@ -15,6 +15,7 @@ router.post("/", async (req, res) => {
       price,
       stock,
       image,
+      categoryId,
     });
 
     res.status(201).json(newProduct);
