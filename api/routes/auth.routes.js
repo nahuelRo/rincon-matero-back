@@ -35,27 +35,25 @@ router.post("/logout", (req, res) => {
   res.clearCookie("token").sendStatus(204);
 });
 
-router.post("/login", (req, res) => {
+router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
-  Users.findOne({ where: { email } }).then((user) => {
-    if (!user) return res.status(401).json({ message: "User does not exist" });
+  const user = await Users.findOne({ where: { email } });
 
-    user.validate_password(password).then((validate) => {
-      if (!validate) res.status(401).json({ message: "Invalid pasword" });
+  if (!user) {
+    res.sendStatus(401);
+  } else {
+    const isValid = await user.validate_password(password);
 
-      const token = generateToken(user.id);
+    if (!isValid) res.sendStatus(401);
+    else {
+      const { id, name, last_name, address, role } = user;
+      const payload = { id, email, name, last_name, address, role };
+      const token = generateToken(payload);
 
-      const payload = {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        lastname: user.lastname,
-        token: token,
-      };
-      res.send(payload);
-    });
-  });
+      res.cookie("token", token).send(payload);
+    }
+  }
 });
 
 router.post("/me", validateCookie, (req, res) => {
