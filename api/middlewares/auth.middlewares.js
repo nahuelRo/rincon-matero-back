@@ -3,7 +3,7 @@ const tokens = require("../config/token");
 function validateCookie(req, res, next) {
   const token = req.cookies.token;
   if (!token) {
-    res.sendStatus(401);
+    return res.sendStatus(401);
   }
   const { payload } = tokens.validateToken(token);
 
