@@ -5,7 +5,7 @@ const router = express.Router();
 const { Op } = require("sequelize");
 
 const Product = require("../models/Products.models");
-const { Categories } = require("../models");
+const { Categories, Products } = require("../models");
 const isAdmin = require("../middlewares/admin.middlewares");
 
 router.post("/", async (req, res) => {
@@ -105,6 +105,16 @@ router.put("/:id", isAdmin, (req, res) => {
     .catch(() => {
       res.status(500).json({ message: "Internal server error" });
     });
+});
+
+router.delete("/:id", isAdmin, async (req, res) => {
+  const { id } = req.params;
+  try {
+    await Products.destroy({ where: { id } });
+    res.status(204).json({ message: "The product was successfully removed" });
+  } catch (error) {
+    res.status(500).json({ error: "Error deleting product" });
+  }
 });
 
 //Ruta para filtrar productos por categoría
