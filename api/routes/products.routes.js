@@ -1,6 +1,7 @@
 const express = require("express");
 const db = require("../config/db");
 const router = express.Router();
+const { Op } = require("sequelize");
 
 const Product = require("../models/Products.models");
 const { Categories } = require("../models");
@@ -103,6 +104,25 @@ router.put("/:id", (req, res) => {
     .catch(() => {
       res.status(500).json({ message: "Internal server error" });
     });
+});
+
+////RUTA DE BUSCADOR
+router.get("/search/:query", async (req, res) => {
+  try {
+    const { query } = req.params;
+
+    const productsSearch = await Product.findAll({
+      where: {
+        name: {
+          [Op.like]: `%${query}%`,
+        },
+      },
+    });
+
+    res.status(200).json(productsSearch);
+  } catch (error) {
+    res.status(500).json({ message: "Error searching for product" });
+  }
 });
 
 module.exports = router;
