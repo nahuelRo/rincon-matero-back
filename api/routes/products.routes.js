@@ -1,6 +1,11 @@
 const express = require("express");
 const db = require("../config/db");
 const router = express.Router();
+
+const { Op } = require("sequelize");
+
+
+
 const Product = require("../models/Products.models");
 const { Categories } = require("../models");
 const isAdmin = require("../middlewares/admin.middlewares");
@@ -104,6 +109,7 @@ router.put("/:id", isAdmin, (req, res) => {
     });
 });
 
+
 //Ruta para filtrar productos por categoría
 router.get("/categoryId/:categoryId", (req, res) => {
   const categoryId = req.params.categoryId;
@@ -127,6 +133,25 @@ router.get("/categoryId/:categoryId", (req, res) => {
     .catch(() => {
       res.status(500).json({ error: "Error when searching for category" });
     });
+
+////RUTA DE BUSCADOR
+router.get("/search/:query", async (req, res) => {
+  try {
+    const { query } = req.params;
+
+    const productsSearch = await Product.findAll({
+      where: {
+        name: {
+          [Op.like]: `%${query}%`,
+        },
+      },
+    });
+
+    res.status(200).json(productsSearch);
+  } catch (error) {
+    res.status(500).json({ message: "Error searching for product" });
+  }
+
 });
 
 module.exports = router;

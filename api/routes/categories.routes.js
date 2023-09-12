@@ -3,7 +3,7 @@ const router = express.Router();
 const isAdmin = require("../middlewares/admin.middlewares");
 const { Categories, Products } = require("../models");
 
-router.post("/", (req, res) => {
+router.post("/", isAdmin, (req, res) => {
   Categories.findOne({ where: { name: req.body.name } })
     .then((existingCategorie) => {
       if (existingCategorie) {
