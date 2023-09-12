@@ -109,6 +109,31 @@ router.put("/:id", isAdmin, (req, res) => {
     });
 });
 
+
+//Ruta para filtrar productos por categoría
+router.get("/categoryId/:categoryId", (req, res) => {
+  const categoryId = req.params.categoryId;
+
+  //Busco la categoría por id
+  Categories.findByPk(categoryId)
+    .then((category) => {
+      if (!category) {
+        return res.status(404).json({ error: "Category not found" });
+      }
+
+      //Busco los productos que pertenezcan a esa categoría
+      Product.findAll({ where: { categoryId } })
+        .then((products) => res.json(products))
+        .catch(() => {
+          res
+            .status(500)
+            .json({ error: "Error when searching for products by category" });
+        });
+    })
+    .catch(() => {
+      res.status(500).json({ error: "Error when searching for category" });
+    });
+
 ////RUTA DE BUSCADOR
 router.get("/search/:query", async (req, res) => {
   try {
@@ -126,6 +151,7 @@ router.get("/search/:query", async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Error searching for product" });
   }
+
 });
 
 module.exports = router;
