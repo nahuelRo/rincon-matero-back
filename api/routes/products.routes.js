@@ -4,6 +4,7 @@ const router = express.Router();
 
 const Product = require("../models/Products.models");
 const { Categories } = require("../models");
+const isAdmin = require("../middlewares/admin.middlewares");
 
 router.post("/", async (req, res) => {
   try {
@@ -75,8 +76,7 @@ router.get("/:id", (req, res) => {
     });
 });
 
-//falta agregar el middleware de isAdmin
-router.put("/:id", (req, res) => {
+router.put("/:id", isAdmin, (req, res) => {
   const { id } = req.params;
   const { categoryId } = req.body;
 
