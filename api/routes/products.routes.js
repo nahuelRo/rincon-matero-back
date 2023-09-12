@@ -1,7 +1,6 @@
 const express = require("express");
 const db = require("../config/db");
 const router = express.Router();
-
 const Product = require("../models/Products.models");
 const { Categories } = require("../models");
 const isAdmin = require("../middlewares/admin.middlewares");
