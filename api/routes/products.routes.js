@@ -75,4 +75,34 @@ router.get("/:id", (req, res) => {
     });
 });
 
+//falta agregar el middleware de isAdmin
+router.put("/:id", (req, res) => {
+  const { id } = req.params;
+  const { categoryId } = req.body;
+
+  Categories.findByPk(categoryId)
+    .then((category) => {
+      if (!category) {
+        return res.status(404).json({ message: "Category not found" });
+      }
+
+      Product.update(req.body, {
+        where: { id },
+        returning: true,
+      })
+        .then(([rowCounter, [updatedProduct]]) => {
+          if (rowCounter === 0) {
+            return res.status(404).json({ message: "Product not found" });
+          }
+          res.status(200).json(updatedProduct);
+        })
+        .catch(() => {
+          res.status(500).json({ message: "Internal server error" });
+        });
+    })
+    .catch(() => {
+      res.status(500).json({ message: "Internal server error" });
+    });
+});
+
 module.exports = router;
