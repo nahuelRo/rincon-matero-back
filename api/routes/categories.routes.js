@@ -25,35 +25,35 @@ router.post("/", isAdmin, (req, res) => {
     });
 });
 
-router.delete("/:categoryId", isAdmin, (req, res) => {
-  const categoryId = req.params.categoryId;
+// router.delete("/:categoryId", isAdmin, (req, res) => {
+//   const categoryId = req.params.categoryId;
 
-  Categories.findByPk(categoryId).then((category) => {
-    if (!category) {
-      return res.status(404).json({ error: "Category not found" });
-    }
+//   Categories.findByPk(categoryId).then((category) => {
+//     if (!category) {
+//       return res.status(404).json({ error: "Category not found" });
+//     }
 
-    Products.destroy({ where: { categoryId } })
-      .then(() => {
-        category
-          .destroy()
-          .then(() => {
-            res.sendStatus(204);
-          })
-          .catch((error) => {
-            console.error(error);
-            res.status(500).json({ error: "Error deleting category" });
-          });
-      })
-      .catch((error) => {
-        console.error(error);
-        res.status(500).json({ error: "Error deleting products" });
-      })
-      .catch((error) => {
-        console.error(error);
-        res.status(500).json({ error: "Error when searching for category" });
-      });
-  });
-});
+//     Products.destroy({ where: { categoryId } })
+//       .then(() => {
+//         category
+//           .destroy()
+//           .then(() => {
+//             res.sendStatus(204);
+//           })
+//           .catch((error) => {
+//             console.error(error);
+//             res.status(500).json({ error: "Error deleting category" });
+//           });
+//       })
+//       .catch((error) => {
+//         console.error(error);
+//         res.status(500).json({ error: "Error deleting products" });
+//       })
+//       .catch((error) => {
+//         console.error(error);
+//         res.status(500).json({ error: "Error when searching for category" });
+//       });
+//   });
+// });
 
 module.exports = router;
