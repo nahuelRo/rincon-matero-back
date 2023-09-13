@@ -5,11 +5,6 @@ class Orders_products extends Model {}
 
 Orders_products.init(
   {
-    status: {
-      type: DataTypes.ENUM,
-      values: ["PENDING", "SENT", "DELIVERED"],
-      allowNull: false,
-    },
     quantity: {
       type: DataTypes.INTEGER,
       allowNull: false,
