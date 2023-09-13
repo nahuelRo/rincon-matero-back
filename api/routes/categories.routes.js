@@ -75,4 +75,13 @@ router.put("/:categoryId", isAdmin, async (req, res) => {
   }
 });
 
+router.get("/", async (req, res) => {
+  try {
+    const allCategories = await Categories.findAll();
+    res.status(200).json(allCategories);
+  } catch (error) {
+    res.status(500).json({ error: "Error getting all categories" });
+  }
+});
+
 module.exports = router;
