@@ -1,54 +1,57 @@
 const express = require("express");
 const router = express.Router();
-const { Users, Products, Orders } = require("../models");
+const { Users, Products, Orders, Orders_products } = require("../models");
 
-router.post("/user/:userId/order", (req, res) => {
+router.post("/user/:userId/order", async (req, res) => {
   const { userId } = req.params;
+  const { total_price, items } = req.body;
 
-  const { productId, quantity } = req.body;
+  try {
+    const user = await Users.findByPk(userId);
 
-  Users.findByPk(userId)
-    .then((user) => {
-      if (!user) {
-        return res.status(404).json({ error: "Usuario no encontrado" });
-      }
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
 
-      return Orders.findOne({ userId, status: "PENDING" });
-    })
-    .then((order) => {
-      if (!order) {
-        return Orders.create({
-          userId,
-          status: "PENDING",
-          items: [],
-        });
-      }
+    const today = new Date();
 
-      return order;
-    })
-    .then((order) => {
-      return Products.findByPk(productId).then((product) => ({
-        order,
-        product,
-      }));
-    })
-    .then(({ order, product }) => {
-      if (!product) {
-        return res.status(404).json({ error: "Producto no encontrado" });
-      }
-
-      order.items.push({ product, quantity });
-      return order.save();
-    })
-    .then(() => {
-      res
-        .status(200)
-        .json({ message: "Producto agregado a la orden con éxito" });
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).json({ error: "Error interno del servidor" });
+    const order = await Orders.create({
+      userId,
+      status: "PENDING",
+      purchase_date: today,
+      total_price,
     });
+
+    const orderProducts = [];
+
+    for (const item of items) {
+      const { id, quantity } = item;
+
+      const product = await Products.findByPk(id);
+
+      if (product.stock < quantity) {
+        return res
+          .status(400)
+          .json({ message: "Insufficient stock for the product" });
+      }
+
+      product.stock -= quantity;
+      await product.save();
+
+      orderProducts.push({
+        orderId: order.id,
+        productId: product.id,
+        quantity,
+      });
+    }
+
+    await Orders_products.bulkCreate(orderProducts);
+
+    res.status(201).json({ message: "Order created successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error creating order" });
+  }
 });
 
 module.exports = router;

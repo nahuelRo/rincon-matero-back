@@ -1,5 +1,4 @@
 const Users = require("./Users.models");
-const Shopping_history = require("./Shopping_histories.models");
 const Rating = require("./Ratings.models");
 const Products = require("./Products.models");
 const Orders_products = require("./Orders_products.models");
@@ -18,7 +17,6 @@ Products.belongsTo(Categories);
 
 module.exports = {
   Users,
-  Shopping_history,
   Rating,
   Products,
   Orders,
