@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { Users, Products, Orders, Orders_products } = require("../models");
 
-router.post("/user/:userId/order", async (req, res) => {
+router.post("/user/:userId/checkout", async (req, res) => {
   const { userId } = req.params;
   const { total_price, items } = req.body;
 
@@ -51,6 +51,50 @@ router.post("/user/:userId/order", async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Error creating order" });
+  }
+});
+
+router.get("/user/:userId/history", async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const user = await Users.findByPk(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const orders = await Orders.findAll({
+      where: { userId },
+      include: [
+        {
+          model: Products,
+          through: {
+            model: Orders_products,
+            attributes: ["quantity"],
+          },
+        },
+      ],
+    });
+
+    if (orders.length === 0) {
+      return res.status(404).json({ error: "Orders not found" });
+    }
+
+    const orderHistory = orders.map((order) => {
+      return {
+        orderId: order.id,
+        status: order.status,
+        purchaseDate: order.purchase_date,
+        total_price: order.total_price,
+        products: order.products,
+      };
+    });
+
+    res.status(200).json(orderHistory);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error retrieving order history" });
   }
 });
 
