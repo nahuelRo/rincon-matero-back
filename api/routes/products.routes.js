@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const allProducts = await Product.findAll();
+    const allProducts = await Product.findAll({ include: Categories });
     res.status(200).json(allProducts);
   } catch (error) {
     res.status(500).json({ message: "Error getting all products" });
