@@ -64,7 +64,7 @@ router.put("/:id", async (req, res) => {
 router.get("/:id", (req, res) => {
   const { id } = req.params;
 
-  Product.findByPk(id)
+  Product.findOne({ where: { id }, include: Categories })
     .then((product) => {
       if (!product) {
         res.status(404).json({ error: "Product not found" });
@@ -73,7 +73,6 @@ router.get("/:id", (req, res) => {
       }
     })
     .catch((error) => {
-      console.error(error);
       res.status(500).json({ error: "Internal server error" });
     });
 });
@@ -114,10 +113,8 @@ router.delete("/:id", async (req, res) => {
     await Products.destroy({
       where: { id },
     });
-    console.log(deleteProduct);
     res.json(deleteProduct);
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: "Error deleting product" });
   }
 });
