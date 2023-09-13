@@ -11,9 +11,6 @@ Products.belongsToMany(Users, { through: Rating });
 
 Users.hasMany(Orders);
 
-Users.belongsToMany(Orders, { through: Shopping_history });
-Orders.belongsToMany(Users, { through: Shopping_history });
-
 Orders.belongsToMany(Products, { through: Orders_products });
 Products.belongsToMany(Orders, { through: Orders_products });
 

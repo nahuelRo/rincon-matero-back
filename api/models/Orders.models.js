@@ -6,7 +6,16 @@ class Orders extends Model {}
 Orders.init(
   {
     status: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM,
+      values: ["PENDING", "SENT", "DELIVERED"],
+      allowNull: false,
+    },
+    purchase_date: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    total_price: {
+      type: DataTypes.FLOAT,
       allowNull: false,
     },
   },
