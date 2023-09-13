@@ -123,10 +123,6 @@ const {
 
   const categoriesData = [
     {
-      name: "Productos",
-      description: "Descripción de la categoria 1",
-    },
-    {
       name: "Mates",
       description: "Descripción de la categoria 1",
     },
