@@ -107,12 +107,17 @@ router.put("/:id", isAdmin, (req, res) => {
     });
 });
 
-router.delete("/:id", isAdmin, async (req, res) => {
+router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    await Products.destroy({ where: { id } });
-    res.status(204).json({ message: "The product was successfully removed" });
+    const deleteProduct = await Product.findByPk(id);
+    await Products.destroy({
+      where: { id },
+    });
+    console.log(deleteProduct);
+    res.json(deleteProduct);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Error deleting product" });
   }
 });
