@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Users, Products, Orders, Orders_products } = require("../models");
+const emailer = require("../utils/emailer");
 
 router.post("/user/:userId/checkout", async (req, res) => {
   const { userId } = req.params;
@@ -47,6 +48,7 @@ router.post("/user/:userId/checkout", async (req, res) => {
 
     await Orders_products.bulkCreate(orderProducts);
 
+    emailer.sendMail(user);
     res.status(201).json({ message: "Order created successfully" });
   } catch (error) {
     console.log(error);
