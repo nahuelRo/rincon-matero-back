@@ -74,7 +74,6 @@ To upload the changes we use 4 branches, Both bugfixes and features are merged i
 - ├── /utils
 - └── server.js
 
----
 
 ### Schema Design
 ---
