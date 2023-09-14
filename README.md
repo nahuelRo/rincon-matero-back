@@ -27,8 +27,7 @@ In order to use the project on localhost it is necessary to clone it and have so
 Command to clone:
 
 ```bash
-cd existing_folder
-git clone [REPOSITORY LINK]
+git clone https://github.com/nahuelRo/rincon-matero-back.git
 ```
 
 ### Install
