@@ -25,20 +25,20 @@ router.post("/", isAdmin, (req, res) => {
     });
 });
 
-router.delete("/:categoryId", isAdmin, (req, res) => {
+router.delete("/:categoryId", (req, res) => {
   const categoryId = req.params.categoryId;
 
   Categories.findByPk(categoryId).then((category) => {
     if (!category) {
       return res.status(404).json({ error: "Category not found" });
     }
-
+    const deleteCategory = category;
     Products.destroy({ where: { categoryId } })
       .then(() => {
         category
           .destroy()
           .then(() => {
-            res.sendStatus(204);
+            res.json(deleteCategory);
           })
           .catch((error) => {
             console.error(error);
