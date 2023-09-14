@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
+const validateCookie = require("../middlewares/auth.middlewares");
 const { Categories, Products } = require("../models");
 
-router.post("/", (req, res) => {
+router.post("/", validateCookie, (req, res) => {
   Categories.findOne({ where: { name: req.body.name } })
     .then((existingCategorie) => {
       if (existingCategorie) {
@@ -24,7 +25,7 @@ router.post("/", (req, res) => {
     });
 });
 
-router.delete("/:categoryId", (req, res) => {
+router.delete("/:categoryId", validateCookie, (req, res) => {
   const categoryId = req.params.categoryId;
 
   Categories.findByPk(categoryId).then((category) => {
@@ -56,7 +57,7 @@ router.delete("/:categoryId", (req, res) => {
 });
 
 ///RUTA MODIFICAR CATEGORIA
-router.put("/:categoryId", async (req, res) => {
+router.put("/:categoryId", validateCookie, async (req, res) => {
   const { categoryId } = req.params;
   const { name, description } = req.body;
 
@@ -92,4 +93,5 @@ router.get("/:categoryId", async (req, res) => {
     res.status(500).json({ error: "Error getting category" });
   }
 });
+
 module.exports = router;

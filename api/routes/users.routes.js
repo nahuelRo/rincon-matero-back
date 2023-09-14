@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
+const validateCookie = require("../middlewares/auth.middlewares");
 const { Users } = require("../models");
 
-router.put("/:id", (req, res) => {
+router.put("/:id", validateCookie, (req, res) => {
   const { id } = req.params;
 
   Users.update(req.body, { where: { id }, returning: true }).then((result) => {

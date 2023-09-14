@@ -5,7 +5,10 @@ function validateCookie(req, res, next) {
   if (!token) {
     return res.sendStatus(401);
   }
+
   const { payload } = tokens.validateToken(token);
+
+  console.log(payload);
 
   req.user = payload;
 

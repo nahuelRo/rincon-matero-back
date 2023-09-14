@@ -1,13 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const token = require("../config/token");
-const cookieParser = require("cookie-parser");
+
 const validateCookie = require("../middlewares/auth.middlewares");
 const { generateToken } = require("../config/token");
 
 const { Users } = require("../models/index");
-
-router.use(cookieParser());
 
 router.post("/register", (req, res) => {
   Users.findOne({ where: { email: req.body.email } })
