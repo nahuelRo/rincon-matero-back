@@ -84,4 +84,13 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:categoryId", async (req, res) => {
+  const { categoryId } = req.params;
+  try {
+    const category = await Categories.findByPk(categoryId);
+    res.status(200).json(category);
+  } catch (error) {
+    res.status(500).json({ error: "Error getting category" });
+  }
+});
 module.exports = router;
