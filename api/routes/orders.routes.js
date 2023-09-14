@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
+const validateCookie = require("../middlewares/auth.middlewares");
 const { Users, Products, Orders, Orders_products } = require("../models");
 const emailer = require("../utils/emailer");
 
-router.post("/user/:userId/checkout", async (req, res) => {
+router.post("/user/:userId/checkout", validateCookie, async (req, res) => {
   const { userId } = req.params;
   const { total_price, items } = req.body;
 
@@ -56,7 +57,7 @@ router.post("/user/:userId/checkout", async (req, res) => {
   }
 });
 
-router.get("/user/:userId/history", async (req, res) => {
+router.get("/user/:userId/history", validateCookie, async (req, res) => {
   const { userId } = req.params;
 
   try {

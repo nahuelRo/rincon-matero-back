@@ -1,13 +1,14 @@
 const express = require("express");
 const db = require("../config/db");
 const router = express.Router();
+const validateCookie = require("../middlewares/auth.middlewares");
 
 const { Op } = require("sequelize");
 
 const Product = require("../models/Products.models");
 const { Categories, Products } = require("../models");
 
-router.post("/", async (req, res) => {
+router.post("/", validateCookie, async (req, res) => {
   try {
     const { name, description, price, stock, image, categoryId } = req.body;
 
@@ -35,7 +36,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", validateCookie, async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -76,36 +77,7 @@ router.get("/:id", (req, res) => {
     });
 });
 
-router.put("/:id", (req, res) => {
-  const { id } = req.params;
-  const { categoryId } = req.body;
-
-  Categories.findByPk(categoryId)
-    .then((category) => {
-      if (!category) {
-        return res.status(404).json({ message: "Category not found" });
-      }
-
-      Product.update(req.body, {
-        where: { id },
-        returning: true,
-      })
-        .then(([rowCounter, [updatedProduct]]) => {
-          if (rowCounter === 0) {
-            return res.status(404).json({ message: "Product not found" });
-          }
-          res.status(200).json(updatedProduct);
-        })
-        .catch(() => {
-          res.status(500).json({ message: "Internal server error" });
-        });
-    })
-    .catch(() => {
-      res.status(500).json({ message: "Internal server error" });
-    });
-});
-
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", validateCookie, async (req, res) => {
   const { id } = req.params;
   try {
     const deleteProduct = await Product.findByPk(id);
