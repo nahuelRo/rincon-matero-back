@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const isAdmin = require("../middlewares/admin.middlewares");
 const { Categories, Products } = require("../models");
 
-router.post("/", isAdmin, (req, res) => {
+router.post("/", (req, res) => {
   Categories.findOne({ where: { name: req.body.name } })
     .then((existingCategorie) => {
       if (existingCategorie) {
@@ -57,7 +56,7 @@ router.delete("/:categoryId", (req, res) => {
 });
 
 ///RUTA MODIFICAR CATEGORIA
-router.put("/:categoryId", isAdmin, async (req, res) => {
+router.put("/:categoryId", async (req, res) => {
   const { categoryId } = req.params;
   const { name, description } = req.body;
 
