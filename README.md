@@ -1,6 +1,9 @@
 # Backend Rincon Matero
 ---
 
+![Schema Design](./schema/image.png)
+
+
 This is the back-end of rincon matero system. [Rincon Matero Front-end](https://github.com/nahuelRo/rincon-matero-front) connects here.
 
 ### Technologies
@@ -39,10 +42,19 @@ Once the project is cloned, it is necessary to install all the dependencies with
 npm install
 ```
 
+you have to configure some environment variables
+
+```bash
+SEQUELIZE_DB = 
+SECRET_PASSWORD = 
+PORT =
+```
+
+
 In addition to cloning it, you will need to create a database on your localhost with postgresql and seed the data
 
 ```bash
-createdb rincon_matero  // create db
+createdb "SEQUELIZE_DB"  // create db
 npm run seed            // seed data
 ```
 
@@ -74,11 +86,6 @@ To upload the changes we use 4 branches, Both bugfixes and features are merged i
 - ├── /utils
 - └── server.js
 
-
-### Schema Design
----
-
-![Schema Design](./schema/image.png)
 
 ### Collaborators
 ---
