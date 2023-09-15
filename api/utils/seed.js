@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+require("dotenv").config();
 
 const {
   Users,
@@ -141,7 +142,7 @@ const {
       name: "MATE CAMIONERO DE ALGARROBO PERSONALIZADO",
       description: "Descripción del Producto 1",
       price: 30000.99,
-      stock: 100,
+      stock: 2,
       image:
         "https://d22fxaf9t8d39k.cloudfront.net/8402bf563c5451e2cfe30791904333e2308ab4fc2a44078af0394d102e0d58ea19762.jpeg",
       createdAt: "2023-09-06 10:00:00",
@@ -185,7 +186,7 @@ const {
       name: "BOMBILLA SEMI RECTA",
       description: "Descripción del Producto 5",
       price: 15000.99,
-      stock: 120,
+      stock: 10,
       image:
         "https://d22fxaf9t8d39k.cloudfront.net/57f9c4e1661be617689607bc80b46e8c68d3b9611e4825689234e70de9ac558a19762.png",
       createdAt: "2023-09-06 14:00:00",
