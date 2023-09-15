@@ -6,8 +6,8 @@ const createTrans = () => {
     host: "sandbox.smtp.mailtrap.io",
     port: 2525,
     auth: {
-      user: "89184a67342aaa",
-      pass: "9e01d3bec78a5e",
+      user: "9f306df9e06651",
+      pass: "c58c6576c2b1ed",
     },
   });
   return transport;
