@@ -8,8 +8,6 @@ function validateCookie(req, res, next) {
 
   const { payload } = tokens.validateToken(token);
 
-  console.log(payload);
-
   req.user = payload;
 
   if (payload) return next();
