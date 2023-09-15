@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const validateCookie = require("../middlewares/auth.middlewares");
 const { Users } = require("../models");
+const User = require("../models/Users.models");
 
 router.put("/:id", validateCookie, (req, res) => {
   const { id } = req.params;
@@ -16,6 +17,12 @@ router.put("/:id", validateCookie, (req, res) => {
     }
 
     res.status(200).json(user[0]);
+  });
+});
+
+router.get("/", (req, res) => {
+  Users.findAll().then((allUsers) => {
+    res.status(200).send(allUsers);
   });
 });
 
