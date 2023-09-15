@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const db = require("./config/db");
 const volleyball = require("volleyball");
@@ -17,8 +19,8 @@ app.use("/api", routes);
 
 db.sync({ force: false })
   .then(() => {
-    app.listen(3001, () => {
-      console.log("Server running port 3001");
+    app.listen(process.env.PORT, () => {
+      console.log(`Server running port ${process.env.PORT}`);
     });
   })
   .catch(console.error);
